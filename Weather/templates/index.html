@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Checker</title>
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+        <h1>Weather Checker</h1>
+
+        <div class="search-box">
+            <form action="" method="post" style="display: flex; flex-grow: 1; gap: 10px;">
+                {% csrf_token %}
+                <input type="text" id="cityInput" placeholder="Enter city name..." name="city" style="flex-grow: 1;" value="{{ city }}">
+                <button type="submit" id="searchBtn" name="search">Search</button>
+            </form>
+        </div>
+
+        {% if data.error %}
+            <div class="error-message">
+                <p>{{ data.error }}</p>
+            </div>
+        {% endif %}
+
+        {% if data.country_code %}
+        <div class="weather-card" id="weatherCard">
+            <h2 id="cityName">{{ city|capfirst }}</h2>
+            <img id="weatherIcon" src="https://openweathermap.org/img/wn/{{data.icon}}@2x.png" alt="Weather Icon"
+                class="weather-icon">
+
+            <p class="temperature" id="temperature">{{data.temp}}</p>
+
+            <div class="extra-details">
+                <div class="detail-item">
+                    <span>Country Code:</span>
+                    <p>{{data.country_code}}</p>
+                </div>
+                <div class="detail-item">
+                    <span>Coordinate:</span>
+                    <p>{{data.coordinate}}</p>
+                </div>
+                <div class="detail-item">
+                    <span>Humidity:</span>
+                    <p>{{data.humidity}}%</p>
+                </div>
+                <div class="detail-item">
+                    <span>Pressure:</span>
+                    <p>{{data.pressure}} hPa</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+
+</html>
